@@ -11,6 +11,7 @@ const ignored='script,style,pre,code,[data-i18n-ignore]';
 const chineseMessages=window.MotionShelfChineseMessages||{};
 const pattern=(re,format)=>[re,format];
 const patterns=[
+ pattern(/^(\d+) 个动效与动画参考，复制动效或分镜 Prompt。$/,m=>`${m[1]} motion and animation references. Copy a motion or storyboard prompt.`),
  pattern(/^已显示 (\d+) \/ (\d+) 首音乐$/,m=>`Loaded ${m[1]} of ${m[2]} tracks`),
  pattern(/^已显示 (\d+) \/ (\d+) 个案例$/,m=>`Loaded ${m[1]} of ${m[2]} examples`),
  pattern(/^(.+)：库里已有$/,m=>`${translate(m[1])}: already in the library`),
