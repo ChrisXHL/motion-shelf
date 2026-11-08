@@ -2154,6 +2154,7 @@ Object.assign(window.MotionShelfMessages, {
   "维京女祭司在仪式中预见诸神黄昏": "Viking Seeress Foresees Ragnarök Mid-Ritual",
   "编程学习应用：功能介绍": "Coding Learning App: Feature Introduction",
   "编织材质视觉": "Woven Texture Visual Style",
-  "编辑视觉短片": "Editorial Motion Short"
+  "编辑视觉短片": "Editorial Motion Short",
+  "交流联系 ↗": "Get in touch ↗"
 });
 /* catalog-translations:end */

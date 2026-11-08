@@ -18,6 +18,8 @@
 
 [打开公开网站](https://chrisxhl.github.io/motion-shelf/)
 
+交流或建议，欢迎邮件联系：[xiongchris12@gmail.com](mailto:xiongchris12@gmail.com)。五个库的侧栏均提供交流联系入口。
+
 公开网站提供五个灵感库，侧栏可直接切换：[动效](https://chrisxhl.github.io/motion-shelf/)、[剪辑](https://chrisxhl.github.io/motion-shelf/editing.html)、[脚本](https://chrisxhl.github.io/motion-shelf/scripts.html)、[音乐](https://chrisxhl.github.io/motion-shelf/music.html)、[网页](https://chrisxhl.github.io/motion-shelf/websites.html)。支持各库的搜索、分类、预览或试听、收藏、链接与参考 Prompt 复制；脚本资料可下载为 Markdown。
 
 参考方案、上传内容跟 Agent 自动入库仍在本地插件使用，不会在公开站访问本机服务。
