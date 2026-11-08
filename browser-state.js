@@ -4,7 +4,7 @@ const publicLibrary = (() => {
   const storageKey='motion-shelf-public-state-v1';
   const names={motion:'videos.json',editing:'editing.json',scripts:'scripts.json',music:'music.json',websites:'websites.json'};
   /* catalog-versions */
-  const revisions={"videos.json": "c1361eb38ed990d7", "motion-meta.json": "67d3868e8688d4d0", "editing.json": "84c7d40b8dd72450", "scripts.json": "bb5b5a7613464822", "music.json": "8062b811e288f71b", "websites.json": "2bd280216e5ded16"};
+  const revisions={"videos.json": "c1361eb38ed990d7", "motion-meta.json": "8bbb5d6f52042098", "editing.json": "12263b7b346a6b42", "scripts.json": "3dca7c2b056c101e", "music.json": "369f672edce6d0d4", "websites.json": "2bd280216e5ded16"};
   const pending=new Map();
   const keyFor=kind=>kind==='motion'?storageKey:'motion-shelf-public-'+kind+'-state-v1';
   async function file(name){

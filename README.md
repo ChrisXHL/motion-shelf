@@ -8,7 +8,7 @@
 | --- | ---: | --- | --- |
 | 动效灵感库 | 1674 个视频，其中 Vibe Coding 574 个 | 产品宣传、界面演示、图形动效、三维广告、角色动画跟动画短片 | 公开网站和本地插件 |
 | 剪辑灵感库 | 240 部成片 | 节奏、转场、声音、叙事、分屏跟时间空间安排 | 公开网站和本地插件 |
-| 脚本灵感库 | 100 条视频参考 | 开头、内容推进跟收束；脚本、标题和简介 Prompt | 公开网站和本地插件 |
+| 脚本灵感库 | 112 条视频参考 | 开头、内容推进跟收束；脚本、标题和简介 Prompt | 公开网站和本地插件 |
 | 音乐灵感库 | 1000 首配乐 | 产品发布、界面演示、节奏卡点跟品牌叙事；查看授权和署名 | 公开网站和本地插件 |
 | 网页灵感 | 713 个案例与免费模板 | 页面、视觉跟交互；查看原站和完整演示 | 公开网站和本地插件 |
 
@@ -25,6 +25,8 @@ Vibe Coding 按视觉参考价值持续筛选，移除基础测试、未整理�
 公开网站提供五个灵感库，侧栏可直接切换：[动效](https://chrisxhl.github.io/motion-shelf/)、[剪辑](https://chrisxhl.github.io/motion-shelf/editing.html)、[脚本](https://chrisxhl.github.io/motion-shelf/scripts.html)、[音乐](https://chrisxhl.github.io/motion-shelf/music.html)、[网页](https://chrisxhl.github.io/motion-shelf/websites.html)。支持各库的搜索、分类、预览或试听、收藏、链接与参考 Prompt 复制；脚本资料可下载为 Markdown。
 
 参考方案、上传内容跟 Agent 自动入库仍在本地插件使用，不会在公开站访问本机服务。
+
+脚本库新增产品宣传分类，包含 Notion、Figma、Slack、Linear、Descript、Airtable、Superhuman、Raycast、Dropbox、Arc Search、Framer 跟 Loom 的官方成片。每条提供中文结构拆解、制作迁移建议与可复制的脚本、标题和简介 Prompt。新增内容优先展示，默认包含全部原片语言，仍可单独筛选中文视频。分析使用画面抽样与可取得的字幕，未将历史广告的价格、性能和对比表述视为当前事实。
 
 默认显示英语，可在侧栏切换中文，语言选择保存在当前浏览器。分类、操作提示、目录标题跟说明支持中英文，原始作品资料保留。
 

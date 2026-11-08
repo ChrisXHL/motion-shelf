@@ -3,6 +3,7 @@
 'use strict';
 const I=window.MotionI18n;
 I?.registerMessages({
+ '产品宣传':'Product promos',
  '实验验证':'Experiments','科技体验':'Technology experiences',
  '脚本 Prompt':'Script prompt','标题和简介 Prompt':'Title & description prompt','复制脚本 Prompt':'Copy script prompt','复制标题和简介 Prompt':'Copy title & description prompt',
  '复制 Prompt':'Copy prompt','复制后，在你自己的生成区填写主题或贴上脚本。':'Fill in your topic or paste your script in your own generation workspace.','可复制的 Prompt':'Prompt to copy','参考拆解':'Reference analysis','脚本参考':'Script reference','拍摄与剪辑参考':'Production notes','保存完整资料':'Save complete notes','阅读内容':'Reading view','脚本灵感库':'Script Library','全部脚本':'All scripts','视频语言':'Video language','中文视频':'Chinese videos','全部语言':'All languages','画面与转写':'Visuals & transcription','按视频类型':'Browse by format','脚本分类':'Script categories',
@@ -26,7 +27,7 @@ I?.registerMessages({
 const $=s=>document.querySelector(s), E=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const en=()=>I?.language==='en', t=s=>I?.t(s)||s, L=(zh,eng)=>en()?eng:zh;
 const time=n=>`${Math.floor(n/60)}:${String(Math.floor(n%60)).padStart(2,'0')}`;
-let data=null, personal={favorites:[],recent:[]}, category='', scope='all', query='', sort='editorial', sourceLanguage='zh', active=null, pendingCopy=null, noticeTimer, activeDetailView='analysis', returnControl=null;
+let data=null, personal={favorites:[],recent:[]}, category='', scope='all', query='', sort='editorial', sourceLanguage='all', active=null, pendingCopy=null, noticeTimer, activeDetailView='analysis', returnControl=null;
 const saving=new Set();
 let promptCopyBusy=false,pendingCopyMessage=null;
 function card(v){
@@ -78,8 +79,8 @@ async function copyPrompt(id=active?.id,kind='script'){
 
 function toast(message){if($('#script-detail').open)$('#detail-status').textContent=message;clearTimeout(noticeTimer);$('#toast').textContent=message;$('#toast').classList.add('visible');noticeTimer=setTimeout(()=>$('#toast').classList.remove('visible'),3600);}
 async function request(path,payload){return publicLibrary.api(path,payload);}
-function readLocation(){const p=new URL(location.href).searchParams;query=p.get('q')||'';category=p.get('category')||'';scope=['all','favorites','recent'].includes(p.get('view'))?p.get('view'):'all';sort=['editorial','short','long'].includes(p.get('sort'))?p.get('sort'):'editorial';$('#search').value=query;$('#sort').value=sort;sourceLanguage=p.get('lang')==='all'?'all':'zh';$('#source-language').value=sourceLanguage;}
-function writeLocation(){const url=new URL(location.href);for(const [key,value] of Object.entries({q:query,category,view:scope==='all'?'':scope,sort:sort==='editorial'?'':sort,lang:sourceLanguage==='zh'?'':'all',script:active?.id||'',tab:active&&activeDetailView!=='analysis'?activeDetailView:''})){if(value)url.searchParams.set(key,value);else url.searchParams.delete(key);}history.replaceState(null,'',url);}
+function readLocation(){const p=new URL(location.href).searchParams;query=p.get('q')||'';category=p.get('category')||'';scope=['all','favorites','recent'].includes(p.get('view'))?p.get('view'):'all';sort=['editorial','short','long'].includes(p.get('sort'))?p.get('sort'):'editorial';$('#search').value=query;$('#sort').value=sort;sourceLanguage=p.get('lang')==='zh'?'zh':'all';$('#source-language').value=sourceLanguage;}
+function writeLocation(){const url=new URL(location.href);for(const [key,value] of Object.entries({q:query,category,view:scope==='all'?'':scope,sort:sort==='editorial'?'':sort,lang:sourceLanguage==='all'?'':'zh',script:active?.id||'',tab:active&&activeDetailView!=='analysis'?activeDetailView:''})){if(value)url.searchParams.set(key,value);else url.searchParams.delete(key);}history.replaceState(null,'',url);}
 function counts(){
  const valid=new Set(data.videos.filter(v=>sourceLanguage==='all'||v.sourceLanguage==='zh').map(v=>v.id));
  $('#all-count').textContent=valid.size;$('#favorites-count').textContent=personal.favorites.filter(id=>valid.has(id)).length;$('#recent-count').textContent=personal.recent.filter(r=>valid.has(r.id)).length;
