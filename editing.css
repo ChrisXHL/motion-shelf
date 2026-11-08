@@ -1,0 +1,12 @@
+.editing-page .editing-note{font-size:14px;line-height:1.65;color:var(--text,#202332);margin:14px 0 8px;min-height:3.3em}
+.editing-page .editing-use{font-size:12px;line-height:1.6;color:#626574;margin:0 0 14px}
+.editing-page .editing-use span{color:#202332;margin-right:5px}
+.editing-details{display:grid;grid-template-columns:1fr 1fr;gap:24px;padding:0 28px 25px}
+.editing-details h3{font-size:12px;letter-spacing:.04em;color:#202332;margin:0 0 8px}
+.editing-details p{font-size:14px;line-height:1.75;margin:0;color:#202332}
+.editing-details a{display:inline-block;color:#202332;font-size:13px;margin-top:10px}
+.editing-details small{display:block;color:#626574;font-size:11px;margin-top:10px}
+.editing-details>.button{justify-self:start}
+@media(max-width:600px){.editing-details{grid-template-columns:1fr;padding:0 18px 20px;gap:18px}.editing-page .editing-note{min-height:0}}
+
+.editing-metrics{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:12px;font-size:12px;color:#424653;font-variant-numeric:tabular-nums}.editing-metrics small{width:100%;font-size:10px;color:#707482}.editing-public-data{grid-column:1/-1;padding:16px;background:#f6f6fa;border-radius:10px}.editing-metric-values{display:flex;flex-wrap:wrap;gap:20px 36px}.editing-metric-values p{display:flex;flex-direction:column;font-size:12px}.editing-metric-values strong{font-size:21px;font-weight:600;font-variant-numeric:tabular-nums}

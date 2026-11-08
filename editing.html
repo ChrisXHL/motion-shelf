@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head><script src="./locales.js?v=3e06d448b05e36cb" defer></script><script src="./browser-state.js?v=eda3109a319b1b20" defer></script><script src="./i18n.js?v=cd2de2ad8abdabf1" defer></script>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="referrer" content="no-referrer"><meta name="color-scheme" content="light"><meta name="theme-color" content="#f7f7fb">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' https://cdn.dribbble.com https://d2ol7oe51mr4n9.cloudfront.net https://d8j0ntlcm91z4.cloudfront.net https://i.vimeocdn.com https://i.ytimg.com https://i1.hdslb.com https://image.mux.com https://images.higgs.ai https://img.youtube.com https://motionsites.ai https://pbs.twimg.com https://pub-86dc5b5484314368ac5436a674b0d919.r2.dev https://raw.githubusercontent.com https://y4pdgnepgswqffpt.public.blob.vercel-storage.com; media-src https://ccmixter.org https://cdn.dribbble.com https://cdn.rive.cool https://d8j0ntlcm91z4.cloudfront.net https://demos.digitalsamba.com https://github.com https://images.higgs.ai https://incompetech.com https://pub-60e30bed45514f03933d3900731bea31.r2.dev https://pub-86dc5b5484314368ac5436a674b0d919.r2.dev https://raw.githubusercontent.com https://release-assets.githubusercontent.com https://stream.mux.com https://video.twimg.com; frame-src https://player.vimeo.com https://www.youtube-nocookie.com https://player.mux.com https://player.bilibili.com; connect-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'"><title>剪辑灵感库 · Motion Shelf</title><link rel="icon" href="./icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./ui.css?v=47e7e7791aae62e5"><link rel="stylesheet" href="./music.css?v=dc705110fbd1ebb5"><link rel="stylesheet" href="./editing.css?v=ce43395854d73dc2"><script src="./editing.js?v=1be674243980a954" defer></script><link rel="stylesheet" href="./reference-prompts.css?v=ce0c3dfcb9e8ca28"><script src="./reference-prompts.js?v=10b488dadba6f654" defer></script><script src="./app.js?v=d13b03df16201784" defer></script>
+<script src="./navigation.js?v=d17faab9ecc30a64" defer></script></head>
+<body class="editing-page reference-library-page">
+  <a href="#main" class="skip-link">跳到作品</a>
+  <aside class="sidebar" aria-label="作品导航">
+    <a class="brand" href="./" aria-label="动效灵感库首页"><img src="./icon.svg" width="35" height="35" alt=""><span>灵感库<small>MOTION SHELF</small></span></a>
+    <nav class="library-switch" aria-label="切换灵感库"><a href="./">动效灵感库</a><a href="./editing.html" class="active" aria-current="page">剪辑灵感库</a><a href="./scripts.html">脚本灵感库</a><a href="./music.html">音乐灵感库</a><a href="./websites.html">网页灵感</a></nav>
+    <nav class="collection-nav" aria-label="作品集合">
+      <button type="button" class="nav-item active" data-scope="all"><span data-icon="grid"></span><span>全部作品</span><b id="all-count">—</b></button>
+      <button type="button" class="nav-item" data-scope="favorites"><span data-icon="heart"></span><span>我的收藏</span><b id="favorites-count">0</b></button>
+      <button type="button" class="nav-item" data-scope="recent"><span data-icon="clock"></span><span>最近复制</span><b id="recent-count">0</b></button>
+    </nav>
+    
+    <div class="sidebar-label">按剪辑手法</div><nav id="categories" class="category-nav" aria-label="作品分类"></nav>
+    <div class="sidebar-footer"><button type="button" id="about-btn">关于剪辑库 <span>↗</span></button></div>
+  </aside>
+  <main id="main" tabindex="-1">
+    <header class="page-header"><div><h1 id="page-title">全部作品<span class="title-dot">.</span></h1><p id="page-description">动效与动画参考，找到喜欢的，复制就好。</p></div><span class="edition" id="edition">MOTION SHELF<small>正在载入作品…</small></span></header>
+    <section class="toolbar" aria-label="搜索作品">
+      <div class="search-field"><span data-icon="search"></span><input id="search" type="search" placeholder="搜索作品、剪辑手法或作者…" aria-label="搜索作品、剪辑手法或作者" autocomplete="off"><button id="clear-search" type="button" class="icon-button hidden" aria-label="清空搜索"><span data-icon="close"></span></button></div>
+    </section>
+    <section id="subcategories" class="subcategory-row hidden" aria-label="按细分类筛选"></section>
+    <div id="offline-banner" role="status" class="banner hidden"></div>
+    <section class="results-toolbar" aria-label="结果与视图"><div class="results-left"><label class="select-all"><input type="checkbox" id="select-all" aria-label="选择当前全部结果"><span id="results-count" role="status" aria-live="polite">正在载入作品…</span></label><span id="active-filter" class="filter-chip hidden"></span></div><div class="results-right"><label class="sort-wrap"><span class="sr-only">排序方式</span><select id="sort"><option value="newest" selected>最新加入</option><option value="number">清单顺序</option><option value="title">标题 A—Z</option><option value="duration">短片优先</option><option value="plays">播放量最多</option><option value="likes">点赞数最多</option></select></label><div class="view-switch" role="group" aria-label="浏览方式"><button type="button" class="active" data-view="grid" aria-label="卡片视图" aria-pressed="true"><span data-icon="grid"></span></button><button type="button" data-view="list" aria-label="列表视图" aria-pressed="false"><span data-icon="list"></span></button></div></div></section>
+    <section id="gallery" class="gallery" aria-label="视频作品"></section>
+    <section id="empty-state" class="empty-state hidden" aria-live="polite"><div class="empty-icon" data-icon="search"></div><h2 id="empty-title">没有找到作品</h2><p id="empty-description">换一个关键词，或清除筛选再看看。</p><button id="empty-action" type="button" class="button secondary">清除筛选</button></section>
+    <footer class="page-footer"><span id="footer-count">1700 个视频直达链接</span><span>找灵感，也别忘了开始创作。 <span class="footer-spark">✳</span></span></footer>
+  </main>
+  <section id="selection-bar" class="selection-bar hidden" aria-label="批量选择" aria-live="polite"><span class="selection-count"><b id="selected-count">0</b> 个已选</span><button type="button" id="copy-selected" class="button primary"><span data-icon="copy"></span>复制所选链接</button><button type="button" id="clear-selected" class="icon-button" aria-label="取消全部选择"><span data-icon="close"></span></button></section>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <dialog id="preview" class="preview-dialog"><div class="preview-top"><span id="preview-kicker">视频预览</span><button type="button" id="close-preview" class="icon-button" aria-label="关闭预览"><span data-icon="close"></span></button></div><div id="player" class="player"></div><div class="preview-content"><div><h2 id="preview-title"></h2><p id="preview-info"></p><p id="preview-provenance" class="hidden"></p><a id="evidence-link" class="evidence-link hidden" target="_blank" rel="noopener noreferrer">制作说明 / 提示词 ↗</a></div><div class="preview-actions"><a id="original-link" class="button secondary" target="_blank" rel="noopener noreferrer">打开原视频 <span data-icon="external"></span></a><button type="button" id="preview-copy" class="button secondary"><span data-icon="copy"></span>复制链接</button></div></div><section id="editing-details" class="editing-details"></section><div id="preview-reference-prompts" class="reference-preview-actions"></div><div id="preview-reference-insights" class="reference-preview-insights"></div><p class="player-hint">播放受平台与网络影响。无法预览时，可打开原视频；链接随时可以复制。</p></dialog>
+  <dialog id="manual-copy" class="small-dialog"><div class="dialog-heading"><h2>手动复制链接</h2><button type="button" data-close="manual-copy" class="icon-button" aria-label="关闭手动复制"><span data-icon="close"></span></button></div><p>浏览器暂时无法写入剪贴板。请选中下方内容，按 ⌘C / Ctrl+C。</p><textarea id="manual-text" readonly aria-label="待复制的链接"></textarea><button type="button" id="manual-select" class="button primary">全选内容</button></dialog>
+  <dialog id="about" class="small-dialog"><div class="dialog-heading"><h2>关于剪辑灵感库</h2><button type="button" data-close="about" class="icon-button" aria-label="关闭关于"><span data-icon="close"></span></button></div><p>按剪辑手法整理成片，包含广告、旅行、音乐视频跟叙事短片。每条保留原作者、原视频、研究重点跟收录依据。</p><p>作者跟作品身份已核对。研究重点是观看建议，未逐部完整观看；涉及合成、拍摄跟声音设计的案例，不把效果全部归为剪辑。</p><p>仅整理原片链接，视频版权归原作者。收藏跟复制记录仅存此浏览器。</p></dialog>
+
+</body></html>
