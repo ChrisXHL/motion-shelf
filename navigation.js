@@ -1,7 +1,7 @@
 /* Mobile navigation follows the captured Coska popover; original controls retain their handlers. */
 document.addEventListener('DOMContentLoaded',()=>{
  const sidebar=document.querySelector('.sidebar'),brand=sidebar?.querySelector('.brand');if(!sidebar||!brand)return;
- window.MotionI18n?.registerMessages({'脚本灵感库':'Script Library','剪辑灵感库':'Editing Library','灵感库':'Inspiration Library','此浏览器收藏':'Browser favorites','公开参考库':'Public reference library'});
+ window.MotionI18n?.registerMessages({'脚本灵感库':'Script Library','评测脚本库':'Review Script Library'});
  window.MotionI18n?.refresh();
  const content=document.createElement('div');content.className='library-menu-content';content.id='library-menu-content';
  for(const child of [...sidebar.children])if(child!==brand)content.append(child);

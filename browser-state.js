@@ -2,9 +2,9 @@
 // Browser-only visitor records. api() never sends personal data to a server.
 const publicLibrary = (() => {
   const storageKey='motion-shelf-public-state-v1';
-  const names={motion:'videos.json',editing:'editing.json',scripts:'scripts.json',music:'music.json',websites:'websites.json'};
+  const names={motion:'videos.json',editing:'editing.json',scripts:'scripts.json',reviews:'reviews.json',music:'music.json',websites:'websites.json'};
   /* catalog-versions */
-  const revisions={"videos.json": "c1361eb38ed990d7", "motion-meta.json": "8bbb5d6f52042098", "editing.json": "12263b7b346a6b42", "scripts.json": "3dca7c2b056c101e", "music.json": "369f672edce6d0d4", "websites.json": "2bd280216e5ded16"};
+  const revisions={"reviews.json": "674a3b23c6cce555", "videos.json": "c1361eb38ed990d7", "motion-meta.json": "62b3de3414d656a0", "editing.json": "12263b7b346a6b42", "scripts.json": "3dca7c2b056c101e", "music.json": "369f672edce6d0d4", "websites.json": "2bd280216e5ded16"};
   const pending=new Map();
   const keyFor=kind=>kind==='motion'?storageKey:'motion-shelf-public-'+kind+'-state-v1';
   async function file(name){
@@ -29,7 +29,7 @@ const publicLibrary = (() => {
   const present=(kind,state)=>kind==='websites'?{favorites:state.favorites,recent:state.recent.map(r=>r.id)}:state;
   async function api(path,body){
     const routes={'/api/videos':['motion','catalog'],'/api/state':['motion','state'],'/api/favorite':['motion','favorite'],'/api/copied':['motion','copied']};
-    for(const kind of ['editing','scripts','music','websites']){
+    for(const kind of ['editing','scripts','reviews','music','websites']){
       routes['/api/'+kind]=[kind,'catalog'];
       for(const op of ['state','favorite','copied'])routes['/api/'+kind+'/'+op]=[kind,op];
     }

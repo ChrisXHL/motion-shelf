@@ -1,9 +1,10 @@
 /* Script Shelf: source observations, editorial judgments and new writing prompts stay distinct. */
 (()=>{
 'use strict';
+const SCRIPT_LIBRARY=document.body.dataset.scriptLibrary==='reviews'?'reviews':'scripts';
 const I=window.MotionI18n;
 I?.registerMessages({
- '产品宣传':'Product promos',
+ '产品宣传':'Product promos','评测脚本库':'Review Script Library','REVIEW SHELF':'REVIEW SHELF','测试方法 · 证据与结论':'Test methods · Evidence & verdicts','用真实测试支撑判断。':'Build conclusions on real tests.','先看怎么测，再写怎么说。':'Study the test. Then write the review.','数码体验':'Tech experience','AI 产品实测':'AI product tests','消费品盲测':'Consumer blind tests','长期使用':'Long-term use','同类对比':'Comparisons',
  '实验验证':'Experiments','科技体验':'Technology experiences',
  '脚本 Prompt':'Script prompt','标题和简介 Prompt':'Title & description prompt','复制脚本 Prompt':'Copy script prompt','复制标题和简介 Prompt':'Copy title & description prompt',
  '复制 Prompt':'Copy prompt','复制后，在你自己的生成区填写主题或贴上脚本。':'Fill in your topic or paste your script in your own generation workspace.','可复制的 Prompt':'Prompt to copy','参考拆解':'Reference analysis','脚本参考':'Script reference','拍摄与剪辑参考':'Production notes','保存完整资料':'Save complete notes','阅读内容':'Reading view','脚本灵感库':'Script Library','全部脚本':'All scripts','视频语言':'Video language','中文视频':'Chinese videos','全部语言':'All languages','画面与转写':'Visuals & transcription','按视频类型':'Browse by format','脚本分类':'Script categories',
@@ -109,7 +110,7 @@ function render(){
 function syncFavorite(){if(!active)return;const saved=personal.favorites.includes(active.id);$('#detail-favorite').textContent=saved?t('已收藏'):t('收藏');$('#detail-favorite').setAttribute('aria-pressed',String(saved));$('#detail-favorite').setAttribute('aria-busy',String(saving.has(active.id)));}
 async function favorite(id){
  if(saving.has(id))return;saving.add(id);render();syncFavorite();
- try{personal=await request('/api/scripts/favorite',{id,saved:!personal.favorites.includes(id)});}
+ try{personal=await request('/api/'+SCRIPT_LIBRARY+'/favorite',{id,saved:!personal.favorites.includes(id)});}
  catch{toast(L('收藏未保存，请重试。','Favorite could not be saved. Please retry.'));}
  finally{saving.delete(id);render();syncFavorite();}
 }
@@ -138,12 +139,12 @@ function close(){const d=$('#script-detail');if(d.open)d.close();}
 $('#script-detail').addEventListener('close',()=>{$('#script-player').replaceChildren();active=null;document.body.classList.remove('script-is-open');writeLocation();if(returnControl){[...$('#gallery').querySelectorAll('button')].find(b=>(b.dataset.open||b.dataset.favorite)===returnControl.id&&b.className===returnControl.className)?.focus({preventScroll:true});}returnControl=null;});
 function framework(v){return `# ${v.title} · 改写框架\n\n参考：${v.creator}\n${v.url}\n\n以下是结构迁移用的原创写作提示，不是原片逐字稿。\n\n${v.template.map((p,i)=>`## ${i+1}. ${p.label}\n${p.prompt}`).join('\n\n')}\n\n使用提醒：${v.caution}\n`;}
 function markdown(v){return `# ${v.title}\n\n原片：${v.sourceTitle}\n作者：${v.creator}\n来源：${v.url}\n类型：${v.category} · 时长 ${time(v.duration)}\n\n${v.summary}\n\n## 结构判断\n\n${[['hook','开头'],['progression','推进'],['payoff','收束']].map(([k,label])=>`### ${label}\n${v.analysis[k]}`).join('\n\n')}\n\n## 分段脚本 · 中文概述\n\n时间为段落近似值；作用为编辑判断。\n\n${v.segments.map(s=>`### ${time(s.start)}–${time(s.end)} ${s.beat}\n\n画面：${s.visual}\n\n叙述 / 声音：${s.voice}\n\n作用（判断）：${s.purpose}\n\n依据：${s.evidence}\n\n对照原片：${v.url}&t=${s.start}s`).join('\n\n')}\n\n## 收录理由\n\n${v.selection}\n\n## 核对范围\n\n${v.evidence.scope}\n${v.evidence.timing}\n完整连续播放与音轨未逐条审核。身份与链接核对日期：${v.evidence.checkedAt}。\n\n${framework(v)}`;}
-async function recordCopy(id,message){try{personal=await request('/api/scripts/copied',{ids:[id]});render();toast(message||L('已复制。','Copied.'));}catch{toast(L('已复制，最近记录保存失败。','Copied, but the recent record could not be saved.'));}}
+async function recordCopy(id,message){try{personal=await request('/api/'+SCRIPT_LIBRARY+'/copied',{ids:[id]});render();toast(message||L('已复制。','Copied.'));}catch{toast(L('已复制，最近记录保存失败。','Copied, but the recent record could not be saved.'));}}
 async function copy(kind){if(!active)return;const v=active,content=kind==='remake'?remakeMarkdown(v):kind==='template'?framework(v):markdown(v);try{await navigator.clipboard.writeText(content);await recordCopy(v.id);}catch{pendingCopy=v.id;$('#manual-text').value=content;$('#manual-copy').showModal();$('#manual-text').focus();$('#manual-text').select();}}
 async function download(){if(!active)return;const blob=new Blob([markdown(active)+(active.remake?'\n\n'+remakeMarkdown(active):'')],{type:'text/markdown;charset=utf-8'});const url=URL.createObjectURL(blob),link=document.createElement('a');link.href=url;link.download=active.id+'.md';document.body.append(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);toast(L('文件已准备下载。','Your download is ready.'));}
 async function load(){
  $('#load-error').classList.add('hidden');
- try{const [catalog,saved]=await Promise.all([request('/api/scripts'),request('/api/scripts/state')]);data=catalog;personal=saved;if(category&&!data.categories.includes(category))category='';render();const id=new URL(location.href).searchParams.get('script');if(id)open(id,new URL(location.href).searchParams.get('tab')||'analysis');}
+ try{const [catalog,saved]=await Promise.all([request('/api/'+SCRIPT_LIBRARY),request('/api/'+SCRIPT_LIBRARY+'/state')]);data=catalog;personal=saved;if(category&&!data.categories.includes(category))category='';render();const id=new URL(location.href).searchParams.get('script');if(id)open(id,new URL(location.href).searchParams.get('tab')||'analysis');}
  catch{$('#load-error').classList.remove('hidden');$('#results-count').textContent=L('载入失败','Loading failed');}
 }
 document.addEventListener('click',event=>{
@@ -176,5 +177,5 @@ $('#confirm-copy').addEventListener('click',async()=>{const id=pendingCopy,messa
 window.addEventListener('motion-language-change',()=>{render();syncFavorite();if(active)setDetailView(activeDetailView,false);});
 window.addEventListener('popstate',()=>{readLocation();render();const id=new URL(location.href).searchParams.get('script');if(id&&data)open(id,new URL(location.href).searchParams.get('tab')||'analysis');else close();});
 readLocation();I?.refresh();load();
-window.addEventListener('storage',async e=>{if(e.key===publicLibrary.keyFor('scripts')&&data){try{personal=await request('/api/scripts/state');render();syncFavorite();}catch{}}});
+window.addEventListener('storage',async e=>{if(e.key===publicLibrary.keyFor(SCRIPT_LIBRARY)&&data){try{personal=await request('/api/'+SCRIPT_LIBRARY+'/state');render();syncFavorite();}catch{}}});
 })();

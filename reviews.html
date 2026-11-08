@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="referrer" content="strict-origin-when-cross-origin"><meta name="color-scheme" content="light">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' https://cdn.dribbble.com https://d2ol7oe51mr4n9.cloudfront.net https://d8j0ntlcm91z4.cloudfront.net https://i.vimeocdn.com https://i.ytimg.com https://i1.hdslb.com https://image.mux.com https://images.higgs.ai https://img.youtube.com https://motionsites.ai https://pbs.twimg.com https://pub-86dc5b5484314368ac5436a674b0d919.r2.dev https://raw.githubusercontent.com https://y4pdgnepgswqffpt.public.blob.vercel-storage.com; media-src https://ccmixter.org https://cdn.dribbble.com https://cdn.rive.cool https://d8j0ntlcm91z4.cloudfront.net https://demos.digitalsamba.com https://github.com https://images.higgs.ai https://incompetech.com https://pub-60e30bed45514f03933d3900731bea31.r2.dev https://pub-86dc5b5484314368ac5436a674b0d919.r2.dev https://raw.githubusercontent.com https://release-assets.githubusercontent.com https://stream.mux.com https://video.twimg.com; frame-src https://player.vimeo.com https://www.youtube-nocookie.com https://player.mux.com https://player.bilibili.com; connect-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'"><title>评测脚本库 · Motion Shelf</title><link rel="icon" href="./icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./ui.css?v=b8b2658d81dc4cd5"><link rel="stylesheet" href="./scripts.css?v=421808221fa0d1e5">
+  <script src="./locales.js?v=43973c6096ec44dc" defer></script><script src="./browser-state.js?v=70b8c494535d9408" defer></script><script src="./i18n.js?v=cd2de2ad8abdabf1" defer></script>
+  <script src="./script-prompt.js?v=195d99c64e1be0e5" defer></script><script src="./scripts.js?v=bab1f5c3024fcc82" defer></script><script src="./navigation.js?v=36edf099a6b35721" defer></script>
+</head>
+<body class="scripts-page reviews-page" data-script-library="reviews">
+  <a href="#main" class="skip-link">跳到作品</a>
+  <aside class="sidebar" aria-label="作品导航">
+    <a class="brand" href="./" aria-label="动效灵感库首页"><img src="./icon.svg" width="35" height="35" alt=""><span>灵感库<small>MOTION SHELF</small></span></a>
+    <nav class="library-switch" aria-label="切换灵感库"><a href="./">动效灵感库</a><a href="./editing.html">剪辑灵感库</a><a href="./scripts.html">脚本灵感库</a><a href="./reviews.html" class="active" aria-current="page">评测脚本库</a><a href="./music.html">音乐灵感库</a><a href="./websites.html">网页灵感</a></nav><a class="public-contact" href="mailto:xiongchris12@gmail.com"><span>交流联系 ↗</span><small>xiongchris12@gmail.com</small></a>
+    <nav class="collection-nav" aria-label="作品集合">
+      <button type="button" class="nav-item active" data-scope="all"><span>全部脚本</span><b id="all-count">—</b></button>
+      <button type="button" class="nav-item" data-scope="favorites"><span>我的收藏</span><b id="favorites-count">0</b></button>
+      <button type="button" class="nav-item" data-scope="recent"><span>最近复制</span><b id="recent-count">0</b></button>
+    </nav>
+    <div class="sidebar-label">按视频类型</div><nav id="categories" class="category-nav" aria-label="脚本分类"></nav>
+    <div class="sidebar-footer"></div>
+  </aside>
+  <main id="main" tabindex="-1">
+    <header class="page-header"><div><h1>评测脚本库<span class="title-dot">.</span></h1><p id="page-description">先看怎么测，再写怎么说。</p></div><span class="edition">REVIEW SHELF<small>测试方法 · 证据与结论</small></span></header>
+    <section class="toolbar" aria-label="搜索脚本"><div class="search-field"><span class="script-search-icon" aria-hidden="true">⌕</span><input id="search" type="search" placeholder="搜索主题、开头、作者或脚本内容…" aria-label="搜索脚本" autocomplete="off"></div></section>
+    <section class="script-filters" id="script-filters" aria-label="按视频类型筛选"></section>
+    <div class="results-toolbar"><p id="results-count" role="status" aria-live="polite">正在载入脚本…</p><div class="results-right"><label class="sort-wrap"><span class="sr-only">视频语言</span><select id="source-language" aria-label="视频语言"><option value="zh">中文视频</option><option value="all">全部语言</option></select></label><label class="sort-wrap"><span class="sr-only">排序方式</span><select id="sort" aria-label="排序方式"><option value="editorial">精选顺序</option><option value="short">短片优先</option><option value="long">长片优先</option></select></label></div></div>
+    <div id="load-error" class="banner hidden" role="alert"><span>脚本暂时无法载入。</span><button type="button" id="retry" class="button secondary">重试</button></div>
+    <section id="gallery" class="gallery" aria-label="脚本参考"></section>
+    <section id="empty-state" class="empty-state hidden"><h2>没有找到脚本</h2><p>换一个关键词，或清除筛选再看看。</p><button type="button" id="reset" class="button secondary">清除筛选</button></section>
+    <footer class="page-footer"><span id="footer-count"></span><span>用真实测试支撑判断。</span></footer>
+  </main>
+  <dialog id="script-detail" class="script-dialog" aria-labelledby="detail-title">
+    <header class="script-dialog-top"><span>脚本参考</span><button type="button" id="close-detail" class="button secondary" aria-label="关闭拆解">关闭 ×</button></header>
+    <div class="script-detail-grid"><div class="script-watch"><div id="script-player" class="script-player"></div><p class="script-player-help">点击时间段可从该处播放。无法预览时可打开原视频。</p><a id="original-link" target="_blank" rel="noopener noreferrer" class="button secondary">打开原视频 ↗</a><details id="evidence-details"><summary>查看核对依据</summary><div id="evidence-content" lang="zh-CN" data-i18n-ignore></div></details></div>
+    <div class="script-reading"><div id="detail-heading" lang="zh-CN" data-i18n-ignore></div><div class="script-detail-tabs" role="tablist" aria-label="阅读内容"><button type="button" id="prompt-tab" role="tab" data-detail-view="prompt" aria-selected="false" aria-controls="prompt-panel" tabindex="-1">脚本 Prompt</button><button type="button" id="packaging-tab" role="tab" data-detail-view="packaging" aria-selected="false" aria-controls="packaging-panel" tabindex="-1">标题和简介 Prompt</button><button type="button" id="analysis-tab" role="tab" data-detail-view="analysis" aria-selected="true" aria-controls="analysis-panel">参考拆解</button></div><div id="detail-content"><section id="prompt-panel" role="tabpanel" aria-labelledby="prompt-tab" hidden><p class="prompt-hint">复制后，在你自己的生成区填写主题或贴上脚本。</p><textarea id="agent-prompt-preview" rows="16" readonly aria-label="脚本 Prompt" data-i18n-ignore></textarea></section><section id="packaging-panel" role="tabpanel" aria-labelledby="packaging-tab" hidden><p class="prompt-hint">复制后，在你自己的生成区填写主题或贴上脚本。</p><textarea id="packaging-prompt-preview" rows="16" readonly aria-label="标题和简介 Prompt" data-i18n-ignore></textarea></section><section id="analysis-panel" role="tabpanel" aria-labelledby="analysis-tab" lang="zh-CN" data-i18n-ignore></section><details id="production-guide" class="production-guide"><summary>拍摄与剪辑参考</summary><div id="remake-panel" lang="zh-CN" data-i18n-ignore></div></details></div></div></div>
+    <footer class="script-detail-actions"><p id="detail-status" class="script-detail-status" role="status" aria-live="polite"></p><button type="button" id="detail-favorite" class="button secondary">收藏</button><button type="button" id="copy-analysis" class="button secondary">复制拆解</button><button type="button" id="download-analysis" class="button secondary" title="下载 Markdown">保存完整资料</button><button type="button" id="copy-template" class="button primary">复制脚本 Prompt</button><button type="button" id="copy-packaging" class="button secondary">复制标题和简介 Prompt</button></footer>
+  </dialog>
+  <dialog id="manual-copy" class="small-dialog" aria-labelledby="manual-heading"><div class="dialog-heading"><h2 id="manual-heading">手动复制</h2><button id="close-copy" type="button" class="button secondary">关闭</button></div><p>请选择下方内容，按 ⌘C / Ctrl+C。</p><textarea id="manual-text" readonly aria-label="待复制内容"></textarea><button type="button" id="select-copy" class="button primary">全选内容</button><button type="button" id="confirm-copy" class="button secondary">已复制，记入最近</button></dialog>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>

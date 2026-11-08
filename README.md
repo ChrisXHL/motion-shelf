@@ -1,6 +1,6 @@
 # 灵感库 · Motion Shelf
 
-把动效、剪辑、脚本、配乐跟网页参考放在同一个产品里。你可以自己浏览、预览和复制，也可以让当前对话里的 Agent 检索、比较候选，保存参考方案。
+把动效、剪辑、脚本、评测脚本、配乐跟网页参考放在同一个产品里。你可以自己浏览、预览和复制，也可以让当前对话里的 Agent 检索、比较候选，保存参考方案。
 
 ## 产品包含哪些库
 
@@ -9,6 +9,7 @@
 | 动效灵感库 | 1674 个视频，其中 Vibe Coding 574 个 | 产品宣传、界面演示、图形动效、三维广告、角色动画跟动画短片 | 公开网站和本地插件 |
 | 剪辑灵感库 | 240 部成片 | 节奏、转场、声音、叙事、分屏跟时间空间安排 | 公开网站和本地插件 |
 | 脚本灵感库 | 112 条视频参考 | 开头、内容推进跟收束；脚本、标题和简介 Prompt | 公开网站和本地插件 |
+| 评测脚本库 | 7 条评测参考 | 测试设计、证据呈现、优缺点与购买判断；评测脚本 Prompt | 公开网站和本地插件 |
 | 音乐灵感库 | 1000 首配乐 | 产品发布、界面演示、节奏卡点跟品牌叙事；查看授权和署名 | 公开网站和本地插件 |
 | 网页灵感 | 713 个案例与免费模板 | 页面、视觉跟交互；查看原站和完整演示 | 公开网站和本地插件 |
 
@@ -20,13 +21,15 @@ Vibe Coding 按视觉参考价值持续筛选，移除基础测试、未整理�
 
 [打开公开网站](https://chrisxhl.github.io/motion-shelf/)
 
-交流或建议，欢迎邮件联系：[xiongchris12@gmail.com](mailto:xiongchris12@gmail.com)。五个库的侧栏均提供交流联系入口。
+交流或建议，欢迎邮件联系：[xiongchris12@gmail.com](mailto:xiongchris12@gmail.com)。六个库的侧栏均提供交流联系入口。
 
-公开网站提供五个灵感库，侧栏可直接切换：[动效](https://chrisxhl.github.io/motion-shelf/)、[剪辑](https://chrisxhl.github.io/motion-shelf/editing.html)、[脚本](https://chrisxhl.github.io/motion-shelf/scripts.html)、[音乐](https://chrisxhl.github.io/motion-shelf/music.html)、[网页](https://chrisxhl.github.io/motion-shelf/websites.html)。支持各库的搜索、分类、预览或试听、收藏、链接与参考 Prompt 复制；脚本资料可下载为 Markdown。
+公开网站提供六个灵感库，侧栏可直接切换：[动效](https://chrisxhl.github.io/motion-shelf/)、[剪辑](https://chrisxhl.github.io/motion-shelf/editing.html)、[脚本](https://chrisxhl.github.io/motion-shelf/scripts.html)、[评测脚本](https://chrisxhl.github.io/motion-shelf/reviews.html)、[音乐](https://chrisxhl.github.io/motion-shelf/music.html)、[网页](https://chrisxhl.github.io/motion-shelf/websites.html)。支持各库的搜索、分类、预览或试听、收藏、链接与参考 Prompt 复制；脚本资料可下载为 Markdown。
 
 参考方案、上传内容跟 Agent 自动入库仍在本地插件使用，不会在公开站访问本机服务。
 
 脚本库新增产品宣传分类，包含 Notion、Figma、Slack、Linear、Descript、Airtable、Superhuman、Raycast、Dropbox、Arc Search、Framer 跟 Loom 的官方成片。每条提供中文结构拆解、制作迁移建议与可复制的脚本、标题和简介 Prompt。新增内容优先展示，默认包含全部原片语言，仍可单独筛选中文视频。分析使用画面抽样与可取得的字幕，未将历史广告的价格、性能和对比表述视为当前事实。
+
+评测脚本库单独收录数码体验、同类对比、AI 产品实测跟消费品盲测。首批包含 MKBHD 的 Vision Pro、iPhone 16、Rabbit R1、Nothing 4A / Pro，The Verge 的 Steam Deck OLED、Humane AI Pin，以及原脚本库的可乐测试交叉收录。原脚本库的 112 条不变。每条提供原片预览、分段拆解、拍摄建议、脚本跟标题简介 Prompt。评测 Prompt 要求交代测试条件、区分厂家宣称与实测、保留缺点、按人群给建议；素材缺失时标待实测，不编造使用经历或数字。六条新参考依据作者原视频、覆盖全片的36张时间序列画面跟字幕抽读，未完整连续观看或独立复现产品测试。
 
 默认显示英语，可在侧栏切换中文，语言选择保存在当前浏览器。分类、操作提示、目录标题跟说明支持中英文，原始作品资料保留。
 
@@ -40,7 +43,7 @@ Vibe Coding 按视觉参考价值持续筛选，移除基础测试、未整理�
 
 ## 更新跟部署
 
-现有网站由本地同步任务每天凌晨 4 点（UTC+8）检查更新，只发布允许公开的网页文件跟作品清单。README 随发布生成，更新库的内容或功能时也同步维护产品说明。
+定时同步已取消，现有网站按需手动同步，只发布允许公开的网页文件跟作品清单。README 随发布生成，更新库的内容或功能时也同步维护产品说明。
 
 仓库通过 `main` 分支根目录部署到 GitHub Pages。同步以构建通过并核对线上文件为完成；遇到冲突、数量异常下降或核对失败时停止，保留现有网站。
 
@@ -54,4 +57,4 @@ Vibe Coding 按视觉参考价值持续筛选，移除基础测试、未整理�
 
 各库的来源核对、原作研究跟创作建议分开记录。未完整观看、试听或操作的内容，不当作已完成的原作拆解。音乐采用前要核对具体曲目的授权和署名要求。公开站直接读取作者音频；部分来源限制站外播放，无法试听时可打开作者原页，公开站不会借用本机音频转发服务。
 
-此仓库只包含允许公开的五库目录、整理后的参考内容跟网页文件，不包含个人数据库、上传原文、研究过程文件、私人方案或插件服务端。
+此仓库只包含允许公开的六库目录、整理后的参考内容跟网页文件，不包含个人数据库、上传原文、研究过程文件、私人方案或插件服务端。
