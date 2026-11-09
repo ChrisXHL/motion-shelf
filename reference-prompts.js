@@ -39,7 +39,7 @@ function modes(kind){if(!MODES[kind])throw Error('未知灵感库');return MODES
 function compose(kind,row,mode,draft={}){
  const entry=modes(kind).find(x=>x[0]===mode);if(!entry)throw Error('未知提示词类型');
  const b=row.referenceBrief;if(!b||b.version!==2||b.library!==kind||b.id!==row.id)throw Error('参考提炼暂不可用');
- if(!isReady(b))throw Error('这条参考正在整理，完成内容提炼后才能复制 Prompt');
+ if(!isReady(b))throw Error('原作资料不足，暂不可复制 Prompt');
  const {brief='',requirements=''}=draft;
  if(typeof brief!=='string'||brief.length>12000||typeof requirements!=='string'||requirements.length>2000)throw Error('填写内容无效');
  const [name,goal,method,output]=TASKS[kind][mode];
@@ -72,11 +72,11 @@ function referenceAnalysis(kind,mode,b){
  '创作时把参考做法落到我的具体段落、镜头、音乐层次或页面模块；保持我的事实与风格，避免只替换名词。无需打开原作才能使用已给出的精髓，也不要把用户带回参考分析流程。';
 }
 
-function buttons(kind,row){return '<div class="reference-prompt-actions" role="group" aria-label="创作提示词">'+modes(kind).map(([mode,label],i)=>`<button type="button" class="button ${i?'secondary':'primary'} reference-prompt-button" data-ref-kind="${kind}" data-ref-id="${E(row.id)}" data-ref-mode="${mode}" aria-label="复制${E(label)}" title="${isReady(row.referenceBrief)?'复制已包含参考精髓的 Prompt':'内容整理中，完成提炼后可复制'}" ${isReady(row.referenceBrief)?'':'disabled'}>${icon}<span>${E(label)}</span></button>`).join('')+'</div>';}
+function buttons(kind,row){return '<div class="reference-prompt-actions" role="group" aria-label="创作提示词">'+modes(kind).map(([mode,label],i)=>`<button type="button" class="button ${i?'secondary':'primary'} reference-prompt-button" data-ref-kind="${kind}" data-ref-id="${E(row.id)}" data-ref-mode="${mode}" aria-label="复制${E(label)}" title="${isReady(row.referenceBrief)?'复制已包含参考精髓的 Prompt':'原作资料不足，暂不可复制'}" ${isReady(row.referenceBrief)?'':'disabled'}>${icon}<span>${E(label)}</span></button>`).join('')+'</div>';}
 function detail(kind,row){
  const b=row.referenceBrief;if(!b)return '';
  const mechanisms=b.mechanisms||[],known=(b.sourceNotes?.length?b.sourceNotes:b.sourceFacts.filter(x=>['note','study','description','instruments','moods','style','verification.sourceDescription'].includes(x.field)).slice(0,2).map(x=>String(x.value)));
- const body=mechanisms.length?`<p class="reference-basis">${E(b.analysisScope)}</p>${mechanisms.slice(0,4).map(m=>`<section class="reference-mechanism"><h3>原作的具体做法</h3><p>${E(m.observation)}</p><h3>作用判断</h3><p>${E(m.function)}</p><h3>换成你的内容</h3><p>${E(m.transfer)}</p><p class="reference-basis">依据：${m.evidence.map(e=>E(e.locator)).join('；')}</p></section>`).join('')}`:`<p class="reference-pending">内容整理中</p><p class="reference-basis">这条参考的具体做法和迁移方法正在整理，完成后开放 Prompt 复制。</p><h3>已有资料</h3><ul>${known.map(x=>'<li>'+E(x)+'</li>').join('')||'<li>目前仅有标题、分类与原始出处。</li>'}</ul>`;
+ const body=mechanisms.length?`<p class="reference-basis">${E(b.analysisScope)}</p>${mechanisms.slice(0,4).map(m=>`<section class="reference-mechanism"><h3>原作的具体做法</h3><p>${E(m.observation)}</p><h3>作用判断</h3><p>${E(m.function)}</p><h3>换成你的内容</h3><p>${E(m.transfer)}</p><p class="reference-basis">依据：${m.evidence.map(e=>E(e.locator)).join('；')}</p></section>`).join('')}`:`<p class="reference-pending">资料待补</p><p class="reference-basis">现有资料不足以支持具体做法和迁移方法，暂未开放 Prompt 复制。</p><h3>已有资料</h3><ul>${known.map(x=>'<li>'+E(x)+'</li>').join('')||'<li>目前仅有标题、分类与原始出处。</li>'}</ul>`;
  return `<details class="reference-extract"><summary>参考提炼</summary><div lang="zh-CN" data-i18n-ignore>${body}<p class="reference-basis">${(b.notEstablished||[]).map(E).join(' ')}</p>${b.verifiedSources.map(s=>`<a href="${E(s.url)}" target="_blank" rel="noopener noreferrer">核对来源 ↗</a>`).join(' ')}</div></details>`;
 }
 
@@ -85,7 +85,7 @@ if(typeof module==='object'&&module.exports){module.exports=api;return;}
 root.ReferencePrompts=api;
 const registry=new Map();let busy=false,pending=null,inspected=null;
 const I=root.MotionI18n,en=()=>I?.language==='en';
-const messages={'复制已包含参考精髓的 Prompt':'Copy prompt with distilled reference craft','内容整理中，完成提炼后可复制':'Insights in progress; copy available when ready','复制含具体提炼与核对范围的 Prompt':'Copy prompt with specific insights and review scope','创作提示词':'Creative prompts','参考提炼':'Reference insights','预览 ↗':'Preview ↗','参考节奏与转场，复制剪辑或拍摄 Prompt。':'Study rhythm and transitions. Copy an editing or shooting prompt.','复制当前 Prompt':'Copy this prompt','关闭':'Close','手动复制':'Copy manually','全选内容':'Select all','已复制':'Copied'};
+const messages={'复制已包含参考精髓的 Prompt':'Copy prompt with distilled reference craft','原作资料不足，暂不可复制':'Insufficient source evidence; prompt copy unavailable','复制含具体提炼与核对范围的 Prompt':'Copy prompt with specific insights and review scope','创作提示词':'Creative prompts','参考提炼':'Reference insights','预览 ↗':'Preview ↗','参考节奏与转场，复制剪辑或拍摄 Prompt。':'Study rhythm and transitions. Copy an editing or shooting prompt.','复制当前 Prompt':'Copy this prompt','关闭':'Close','手动复制':'Copy manually','全选内容':'Select all','已复制':'Copied'};
 for(const entries of Object.values(MODES))for(const [,zh,english] of entries){messages[zh]=english;messages['复制'+zh]='Copy '+english;}
 I?.registerMessages(messages);
 api.register=(kind,rows,onCopied)=>{modes(kind);registry.set(kind,{rows:new Map(rows.map(r=>[r.id,r])),onCopied});};
@@ -118,7 +118,7 @@ async function copy(kind,id,mode,button,linkOnly=false){
  }}
 }
 function inspect(kind,id){const row=registry.get(kind)?.rows.get(id);if(!row)return;inspected={kind,id,mode:modes(kind)[0][0]};document.getElementById('reference-title').textContent=row.title;document.getElementById('reference-insights').innerHTML=detail(kind,row);const d=document.querySelector('#reference-insights details');if(d)d.open=true;setMode(inspected.mode);document.getElementById('reference-inspector').showModal();I?.refresh();}
-function setMode(mode){if(!inspected)return;inspected.mode=mode;const {kind,id}=inspected,row=registry.get(kind)?.rows.get(id);document.getElementById('reference-tabs').innerHTML=modes(kind).map(([key,label])=>`<button type="button" role="tab" ${key===mode?'id="reference-tab-active"':''} aria-controls="reference-preview" aria-selected="${key===mode}" tabindex="${key===mode?0:-1}" data-ref-tab="${key}">${E(label)}</button>`).join('');const ready=isReady(row.referenceBrief);document.getElementById('reference-preview').value=ready?compose(kind,row,mode):(en()?'Reference insights are being prepared. The prompt will include them when ready.':'这条参考正在逐条整理，完成后可复制包含参考精髓的 Prompt。');document.getElementById('reference-current-copy').disabled=!ready;I?.refresh();}
+function setMode(mode){if(!inspected)return;inspected.mode=mode;const {kind,id}=inspected,row=registry.get(kind)?.rows.get(id);document.getElementById('reference-tabs').innerHTML=modes(kind).map(([key,label])=>`<button type="button" role="tab" ${key===mode?'id="reference-tab-active"':''} aria-controls="reference-preview" aria-selected="${key===mode}" tabindex="${key===mode?0:-1}" data-ref-tab="${key}">${E(label)}</button>`).join('');const ready=isReady(row.referenceBrief);document.getElementById('reference-preview').value=ready?compose(kind,row,mode):(en()?'Insufficient source evidence to distill this reference. Prompt copy is unavailable.':'原作资料不足，暂未开放包含参考精髓的 Prompt。');document.getElementById('reference-current-copy').disabled=!ready;I?.refresh();}
 mount();
 document.addEventListener('click',event=>{
  const button=event.target.closest('button');if(!button)return;

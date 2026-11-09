@@ -2,9 +2,9 @@
 // Browser-only visitor records. api() never sends personal data to a server.
 const publicLibrary = (() => {
   const storageKey='motion-shelf-public-state-v1';
-  const names={motion:'videos.json',editing:'editing.json',scripts:'scripts.json',reviews:'reviews.json',music:'music.json',websites:'websites.json'};
+  const names={motion:'videos.json',editing:'editing.json',scripts:'scripts.json',music:'music.json',websites:'websites.json'};
   /* catalog-versions */
-  const revisions={"reviews.json": "674a3b23c6cce555", "videos.json": "c1361eb38ed990d7", "motion-meta.json": "62b3de3414d656a0", "editing.json": "12263b7b346a6b42", "scripts.json": "3dca7c2b056c101e", "music.json": "369f672edce6d0d4", "websites.json": "2bd280216e5ded16"};
+  const revisions={"videos.json": "c1361eb38ed990d7", "motion-meta.json": "72470540c98ec65a", "editing.json": "12263b7b346a6b42", "scripts.json": "0a2150d827d05663", "music.json": "369f672edce6d0d4", "websites.json": "2bd280216e5ded16"};
   const pending=new Map();
   const keyFor=kind=>kind==='motion'?storageKey:'motion-shelf-public-'+kind+'-state-v1';
   async function file(name){
@@ -19,17 +19,35 @@ const publicLibrary = (() => {
     }
     return data;
   }
-  function read(key,known){
+  function read(key,known,aliases={}){
     const raw=localStorage.getItem(key);
     if(!raw)return {favorites:[],recent:[]};
     const data=JSON.parse(raw);
     if(!data||!Array.isArray(data.favorites)||!Array.isArray(data.recent))throw Error('浏览器记录格式无效');
-    return {favorites:[...new Set(data.favorites.filter(id=>typeof id==='string'&&known.has(id)))],recent:data.recent.filter(r=>r&&known.has(r.id)&&typeof r.copiedAt==='string'&&Number.isInteger(r.count)&&r.count>0)};
+    const canonical=id=>Object.hasOwn(aliases,id)?aliases[id]:id;
+    return {favorites:[...new Set(data.favorites.filter(id=>typeof id==='string').map(canonical).filter(id=>known.has(id)))],
+      recent:data.recent.filter(r=>r&&typeof r.id==='string'&&known.has(canonical(r.id))&&typeof r.copiedAt==='string'&&Number.isInteger(r.count)&&r.count>0).map(r=>({...r,id:canonical(r.id)})),
+      ...(data.reviewsMerged===true?{reviewsMerged:true}:{})};
+  }
+  function mergeReviews(key,state,data){
+    if(state.reviewsMerged)return;
+    const known=new Set(data.videos.filter(v=>v.reviewReference).map(v=>v.id));
+    let old;
+    try{old=read(keyFor('reviews'),known,data.reviewAliases||{});}catch{return;}
+    state.favorites=[...new Set([...state.favorites,...old.favorites])];
+    const recent=new Map(state.recent.map(r=>[r.id,r]));
+    for(const row of old.recent){
+      const prior=recent.get(row.id);
+      recent.set(row.id,prior?{id:row.id,copiedAt:prior.copiedAt>row.copiedAt?prior.copiedAt:row.copiedAt,count:prior.count+row.count}:row);
+    }
+    state.recent=[...recent.values()].sort((a,b)=>b.copiedAt.localeCompare(a.copiedAt));
+    state.reviewsMerged=true;
+    localStorage.setItem(key,JSON.stringify(state));
   }
   const present=(kind,state)=>kind==='websites'?{favorites:state.favorites,recent:state.recent.map(r=>r.id)}:state;
   async function api(path,body){
     const routes={'/api/videos':['motion','catalog'],'/api/state':['motion','state'],'/api/favorite':['motion','favorite'],'/api/copied':['motion','copied']};
-    for(const kind of ['editing','scripts','reviews','music','websites']){
+    for(const kind of ['editing','scripts','music','websites']){
       routes['/api/'+kind]=[kind,'catalog'];
       for(const op of ['state','favorite','copied'])routes['/api/'+kind+'/'+op]=[kind,op];
     }
@@ -37,6 +55,7 @@ const publicLibrary = (() => {
     const [kind,operation]=route,data=await catalog(kind);
     if(operation==='catalog')return data;
     const rows=data.videos||data.tracks||data.cases,known=new Set(rows.map(r=>r.id)),key=keyFor(kind),state=read(key,known);
+    if(kind==='scripts')mergeReviews(key,state,data);
     if(operation==='state')return present(kind,state);
     if(operation==='favorite'){
       if(!body||!known.has(body.id)||typeof body.saved!=='boolean')throw Error('收藏请求无效');

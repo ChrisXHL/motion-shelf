@@ -1,10 +1,10 @@
 /* Script Shelf: source observations, editorial judgments and new writing prompts stay distinct. */
 (()=>{
 'use strict';
-const SCRIPT_LIBRARY=document.body.dataset.scriptLibrary==='reviews'?'reviews':'scripts';
+const SCRIPT_LIBRARY='scripts';
 const I=window.MotionI18n;
 I?.registerMessages({
- '产品宣传':'Product promos','评测脚本库':'Review Script Library','REVIEW SHELF':'REVIEW SHELF','测试方法 · 证据与结论':'Test methods · Evidence & verdicts','用真实测试支撑判断。':'Build conclusions on real tests.','先看怎么测，再写怎么说。':'Study the test. Then write the review.','数码体验':'Tech experience','AI 产品实测':'AI product tests','消费品盲测':'Consumer blind tests','长期使用':'Long-term use','同类对比':'Comparisons',
+ '产品宣传':'Product promos','产品评测':'Product reviews','REVIEW SHELF':'REVIEW SHELF','测试方法 · 证据与结论':'Test methods · Evidence & verdicts','用真实测试支撑判断。':'Build conclusions on real tests.','先看怎么测，再写怎么说。':'Study the test. Then write the review.','数码体验':'Tech experience','AI 产品实测':'AI product tests','消费品盲测':'Consumer blind tests','长期使用':'Long-term use','同类对比':'Comparisons',
  '实验验证':'Experiments','科技体验':'Technology experiences',
  '脚本 Prompt':'Script prompt','标题和简介 Prompt':'Title & description prompt','复制脚本 Prompt':'Copy script prompt','复制标题和简介 Prompt':'Copy title & description prompt',
  '复制 Prompt':'Copy prompt','复制后，在你自己的生成区填写主题或贴上脚本。':'Fill in your topic or paste your script in your own generation workspace.','可复制的 Prompt':'Prompt to copy','参考拆解':'Reference analysis','脚本参考':'Script reference','拍摄与剪辑参考':'Production notes','保存完整资料':'Save complete notes','阅读内容':'Reading view','脚本灵感库':'Script Library','全部脚本':'All scripts','视频语言':'Video language','中文视频':'Chinese videos','全部语言':'All languages','画面与转写':'Visuals & transcription','按视频类型':'Browse by format','脚本分类':'Script categories',
@@ -98,7 +98,7 @@ function render(){
  const focused=document.activeElement, navFocus=focused?.hasAttribute('data-category')?{key:focused.dataset.category,parent:focused.parentElement.id}:null, control=focused?.closest('#gallery button'), focusKey=control&&['favorite','copyPrompt','copyPackaging','open'].find(key=>control.dataset[key]!==undefined), focusId=control?.dataset[focusKey], focusClass=control?.className;
  counts();categoryButtons();
  const words=query.trim().toLocaleLowerCase().split(/\s+/).filter(Boolean), recents=new Map(personal.recent.map((r,i)=>[r.id,i]));
- const rows=data.videos.filter(v=>(sourceLanguage==='all'||v.sourceLanguage==='zh')&&(!category||v.category===category)&&(scope!=='favorites'||personal.favorites.includes(v.id))&&(scope!=='recent'||recents.has(v.id))&&words.every(w=>(JSON.stringify({title:v.title,sourceTitle:v.sourceTitle,creator:v.creator,category:v.category,summary:v.summary,analysis:v.analysis,segments:v.segments,template:v.template,selection:v.selection,remake:v.remake})+' '+t(v.category)).toLocaleLowerCase().includes(w)));
+ const rows=data.videos.filter(v=>(sourceLanguage==='all'||v.sourceLanguage==='zh')&&(!category||v.category===category)&&(scope!=='favorites'||personal.favorites.includes(v.id))&&(scope!=='recent'||recents.has(v.id))&&words.every(w=>(JSON.stringify({title:v.title,sourceTitle:v.sourceTitle,creator:v.creator,category:v.category,reviewType:v.reviewType,summary:v.summary,analysis:v.analysis,segments:v.segments,template:v.template,selection:v.selection,remake:v.remake})+' '+t(v.category)).toLocaleLowerCase().includes(w)));
  if(sort!=='editorial')rows.sort((a,b)=>sort==='short'?a.duration-b.duration:b.duration-a.duration);else if(scope==='recent')rows.sort((a,b)=>recents.get(a.id)-recents.get(b.id));
  $('#gallery').innerHTML=rows.map(card).join('');
  $('#empty-state').classList.toggle('hidden',rows.length>0);$('#results-count').textContent=L(`${rows.length} 条脚本 / ${data.videos.length}`,`${rows.length} scripts / ${data.videos.length}`);
@@ -125,6 +125,7 @@ function play(start=0,autoplay=false){
  $('#detail-content').querySelectorAll('[data-time]').forEach(b=>b.setAttribute('aria-pressed',String(Number(b.dataset.time)===start)));
 }
 function open(id,mode='analysis'){
+ id=data.reviewAliases?.[id]||id;
  const v=data?.videos.find(v=>v.id===id);if(!v){toast(L('这条脚本不存在。','This script was not found.'));return;}if(!$('#script-detail').open){const button=document.activeElement?.closest('#gallery button');returnControl=button?{id:button.dataset.open||button.dataset.favorite,className:button.className}:null;}active=v;$('#detail-status').textContent='';
  $('#detail-heading').innerHTML=`<p class="script-source-title">${E(v.category)} · ${time(v.duration)}</p><h2 id="detail-title">${E(v.title)}</h2><p class="script-source-title">${E(v.sourceTitle)}<br>${E(v.creator)}</p>`;
  $('#analysis-panel').innerHTML=`<p>${E(v.summary)}</p><h3>结构判断</h3><div class="script-structure">${[['hook','开头怎么留人'],['progression','中段怎么推进'],['payoff','结尾怎样收束']].map(([key,label])=>`<div><strong>${label}</strong><p>${E(v.analysis[key])}</p></div>`).join('')}</div><h3>分段脚本</h3><p class="script-caution">内容为中文概述；作用是结构判断。${E(v.evidence.timing)}</p>${v.segments.map(s=>`<section class="script-segment"><button type="button" class="segment-time" data-time="${s.start}" aria-pressed="${s.start===0}" aria-label="从 ${time(s.start)} 播放">${time(s.start)}–${time(s.end)} ▷</button><div><h4>${E(s.beat)}</h4><p><strong>${s.visual.startsWith('制作建议')?'画面建议':'画面'}</strong>${E(s.visual)}</p><p><strong>叙述 / 声音</strong>${E(s.voice)}</p><p class="segment-purpose"><strong>作用 · 判断</strong>${E(s.purpose)}</p><span class="segment-evidence">依据：${E(s.evidence)}</span></div></section>`).join('')}<h3>改写框架</h3><p class="script-caution">按这条视频的结构整理的新写作提示，不是原作者台词。</p><div class="script-template">${v.template.map((p,i)=>`<p><b>${i+1}. ${E(p.label)}</b>${E(p.prompt)}</p>`).join('')}</div><h3>为什么收这条</h3><p>${E(v.selection)}</p><p class="script-caution">${E(v.caution)}</p>`;
